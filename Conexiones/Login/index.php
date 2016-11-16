@@ -8,6 +8,15 @@ if (!empty($_POST)) {
   $error = '';
   $md5_pass = md5($password);
   $sql = "SELECT id_usuario,username,password,email FROM usrs_cmns WHERE username = '$usuario' AND password = '$md5_pass'";
+  $result = $mysqli->query($sql);
+  $rows = $result->num_rows;
+  if ($rows > 0) {
+    $rows = $result->fetch_assoc();
+    $_SESSION['id_usuario'];
+    header('Location:welcome.php');
+  }else {
+    $error = "El nombre de usuario o la contraseña son incorrectos"
+  }
 }
 
 
@@ -99,6 +108,9 @@ if (!empty($_POST)) {
                 <a href="contacto.php"><span><i class="fa fa-ticket fa-3x" aria-hidden="true"></i></span></a>
             </div>
         </footer>
+    </div>
+    <div class="text-danger">
+      <?php echo isset($error); ? utf8_decode($error): ''; ?>
     </div>
     <script src="JS/jquery-3.1.1.js"></script>
     <script src="JS/bootstrap.js"></script>
